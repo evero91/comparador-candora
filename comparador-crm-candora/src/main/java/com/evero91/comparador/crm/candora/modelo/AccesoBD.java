@@ -25,10 +25,11 @@ public class AccesoBD {
         properties = new Properties();
         properties.setProperty("user", "ever");
         properties.setProperty("password", "3v3r");
+        properties.setProperty("serverTimezone", "America/Monterrey");
     }
 
     public boolean establecerConexion() {
-        String host = "192.168.1.13";
+        String host = "localhost";
         String port = "3306";
         String database = "crm-candora-produccrion";
         String url = "jdbc:mysql://" + host + ":" + port + "/" + database;

@@ -29,23 +29,23 @@ public class Main {
             return;
         }
 
-        String directorioTrabajo = "C:\\Users\\fernandor\\Documents\\";
+        String directorioTrabajo = "/Users/sistemas/Documents/Ever/flopper/candora/";
         Integer borrar = 0;
         Integer idEmpresa = 1;
 
         List<ArchivoControl> archivosControl = new ArrayList<>();
-        archivosControl.add(new ArchivoControl("mayorcalotes.csv", "ba392f22-3f36-451c-80d8-d73c48fc79af", "lotes"));
+        archivosControl.add(new ArchivoControl("lotesFer.csv", "ba392f22-3f36-451c-80d8-d73c48fc79af", "lotes"));
 
 //        ServicioOportunidad_clasificaciones servicioOportunidad_clasificaciones = new ServicioOportunidad_clasificaciones();
         ServicioArchivoLotes servicioArchivoLotes = new ServicioArchivoLotes();
 
         for (ArchivoControl archivoControl : archivosControl) {
-            List<Oportunidad_clasificaciones> oportunidad_clasificaciones = servicioOportunidad_clasificaciones.listarOportunidad_clasificaciones(accesoBD, archivoControl.getIdOportunidadClasificacionPadre());
-
-            if (oportunidad_clasificaciones == null) {
-                System.out.println("Error al obtener oportunidad_clasificaciones");
-                return;
-            }
+//            List<Oportunidad_clasificaciones> oportunidad_clasificaciones = servicioOportunidad_clasificaciones.listarOportunidad_clasificaciones(accesoBD, archivoControl.getIdOportunidadClasificacionPadre());
+//
+//            if (oportunidad_clasificaciones == null) {
+//                System.out.println("Error al obtener oportunidad_clasificaciones");
+//                return;
+//            }
 
             String archivo = directorioTrabajo + archivoControl.getNombreArchivo();
             List<ArchivoLote> archivoLotes = servicioArchivoLotes.leerArchivoLotes(archivo);
