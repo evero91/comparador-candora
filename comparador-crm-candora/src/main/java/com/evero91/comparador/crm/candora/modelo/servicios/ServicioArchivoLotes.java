@@ -5,8 +5,11 @@
  */
 package com.evero91.comparador.crm.candora.modelo.servicios;
 
+import com.evero91.comparador.crm.candora.modelo.AccesoBD;
 import com.evero91.comparador.crm.candora.modelo.pojo.ArchivoLote;
 import com.evero91.comparador.crm.candora.utilerias.LectorCSV;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,17 +33,38 @@ public class ServicioArchivoLotes {
                 archivoLote.setManzana(linea[i++]);
                 archivoLote.setLote(Integer.parseInt(linea[i++]));
                 archivoLote.setM2(Float.parseFloat(linea[i++]));
-                archivoLote.setTipo(linea[i++]);
-                
-                archivoLote.setPrecioM2(Double.parseDouble(linea[i++].replace(",", "")));
-                archivoLote.setEstatus(linea[i++]);
-                
+                archivoLote.setMedidas(linea[i++]);                
+                archivoLote.setPrecioM2(Double.parseDouble(linea[i++].replace(",", "")));                
                 archivoLotes.add(archivoLote);
             }
             
             return archivoLotes;
         }
         
+        return null;
+    }
+    
+    public String getInsertQuery(AccesoBD accesoBD, ArchivoLote archivoLote){
+        PreparedStatement ps = null;
+        String sql = "INSERT INTO Lotes (Manzana, Lote, Supeficie, Medidas, Precio) VALUES (?,?,?,?,?);";
+        try {
+            ps = accesoBD.getConexion().prepareStatement(sql);
+            int i = 1;
+
+            ps.setString(i++, archivoLote.getManzana());
+            ps.setObject(i++, archivoLote.getLote());
+            ps.setObject(i++, archivoLote.getM2());
+            ps.setString(i++, archivoLote.getMedidas());
+            ps.setObject(i++, archivoLote.getPrecioM2());
+            
+            String strPs = ps.toString();
+            return strPs.substring(strPs.indexOf(":") + 2);
+        } catch (SQLException e) {
+            System.out.println("ServicioOportunidad_clasificaciones -> insertOportunidad_clasificaciones: " + e);
+        } finally {
+            accesoBD.liberarRecursos(ps);
+        }
+
         return null;
     }
     

@@ -15,8 +15,17 @@ public class ArchivoLote {
     private Integer lote;
     private Float m2;
     private String tipo;
+    private String medidas;
     private double precioM2;
     private String estatus;
+
+    public String getMedidas() {
+        return medidas;
+    }
+
+    public void setMedidas(String medidas) {
+        this.medidas = medidas;
+    }
 
     public String getManzana() {
         return manzana;

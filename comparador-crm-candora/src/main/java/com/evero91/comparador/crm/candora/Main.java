@@ -29,18 +29,14 @@ public class Main {
             return;
         }
 
-        String directorioTrabajo = "/Users/sistemas/Documents/Ever/flopper/candora/crm-candora/";
+        String directorioTrabajo = "C:\\Users\\fernandor\\Documents\\";
         Integer borrar = 0;
         Integer idEmpresa = 1;
 
         List<ArchivoControl> archivosControl = new ArrayList<>();
-        archivosControl.add(new ArchivoControl("cambios-lotes - 1A.csv", "ba392f22-3f36-451c-80d8-d73c48fc79af", "1A"));
-        archivosControl.add(new ArchivoControl("cambios-lotes - 2A.csv", "c83eb67c-ce41-4374-8a97-118bf25266cf", "2A"));
-        archivosControl.add(new ArchivoControl("cambios-lotes - 3A.csv", "fd11d2e9-651f-41de-b163-4e8dd8b33e9f", "3A"));
-        archivosControl.add(new ArchivoControl("cambios-lotes - 4A.csv", "cc57aa66-f52b-4ffd-8e08-c427868145e0", "4A"));
-        archivosControl.add(new ArchivoControl("cambios-lotes - 5A.csv", "c8fc0896-d5fa-4bde-b07c-8035f6ff183e", "5A"));
+        archivosControl.add(new ArchivoControl("mayorcalotes.csv", "ba392f22-3f36-451c-80d8-d73c48fc79af", "lotes"));
 
-        ServicioOportunidad_clasificaciones servicioOportunidad_clasificaciones = new ServicioOportunidad_clasificaciones();
+//        ServicioOportunidad_clasificaciones servicioOportunidad_clasificaciones = new ServicioOportunidad_clasificaciones();
         ServicioArchivoLotes servicioArchivoLotes = new ServicioArchivoLotes();
 
         for (ArchivoControl archivoControl : archivosControl) {
@@ -62,52 +58,53 @@ public class Main {
 
             // BUSCAR LOTES FALTANTES
             for (ArchivoLote archivoLote : archivoLotes) {
-                boolean loteEncontrado = false;
-
-                for (Oportunidad_clasificaciones oportunidad_clasificacion : oportunidad_clasificaciones) {
-                    if (archivoLote.getLote().toString().equals(oportunidad_clasificacion.getDescripcion())) {
-                        loteEncontrado = true;
-                        break;
-                    }
-                }
-
-                if (!loteEncontrado) {
-                    Oportunidad_clasificaciones nueva_oportunidad_clasificacion = new Oportunidad_clasificaciones(archivoLote);
-                    nueva_oportunidad_clasificacion.setIdOportunidadClasificacionPadre(archivoControl.getIdOportunidadClasificacionPadre());
-                    nueva_oportunidad_clasificacion.setBorrar(borrar);
-                    nueva_oportunidad_clasificacion.setIdEmpresa(idEmpresa);
-
-                    String query = servicioOportunidad_clasificaciones.strInsertOportunidad_clasificaciones(accesoBD, nueva_oportunidad_clasificacion);
-
-                    if (query == null) {
-                        System.out.println("Error al actualizar registro");
-                    } else {
-                        queries.add(query);
-                    }
-                }
+                queries.add(servicioArchivoLotes.getInsertQuery(accesoBD, archivoLote));
+//                boolean loteEncontrado = false;
+//
+//                for (Oportunidad_clasificaciones oportunidad_clasificacion : oportunidad_clasificaciones) {
+//                    if (archivoLote.getLote().toString().equals(oportunidad_clasificacion.getDescripcion())) {
+//                        loteEncontrado = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (!loteEncontrado) {
+//                    Oportunidad_clasificaciones nueva_oportunidad_clasificacion = new Oportunidad_clasificaciones(archivoLote);
+//                    nueva_oportunidad_clasificacion.setIdOportunidadClasificacionPadre(archivoControl.getIdOportunidadClasificacionPadre());
+//                    nueva_oportunidad_clasificacion.setBorrar(borrar);
+//                    nueva_oportunidad_clasificacion.setIdEmpresa(idEmpresa);
+//
+//                    String query = servicioOportunidad_clasificaciones.strInsertOportunidad_clasificaciones(accesoBD, nueva_oportunidad_clasificacion);
+//
+//                    if (query == null) {
+//                        System.out.println("Error al actualizar registro");
+//                    } else {
+//                        queries.add(query);
+//                    }
+//                }
             }
 
             // BUSCAR LOTES SOBRANTES
-            for (Oportunidad_clasificaciones oportunidad_clasificacion : oportunidad_clasificaciones) {
-                boolean loteEcontrado = false;
-
-                for (ArchivoLote archivoLote : archivoLotes) {
-                    if (oportunidad_clasificacion.getDescripcion().equals(archivoLote.getLote().toString())) {
-                        loteEcontrado = true;
-                        break;
-                    }
-                }
-
-                if (!loteEcontrado) {
-                    String query = servicioOportunidad_clasificaciones.strDeleteOportunidad_clasificaciones(accesoBD, oportunidad_clasificacion.getIdOportunidadClasificacion());
-
-                    if (query == null) {
-                        System.out.println("Error al eliminar registro");
-                    } else {
-                        queries.add(query);
-                    }
-                }
-            }
+//            for (Oportunidad_clasificaciones oportunidad_clasificacion : oportunidad_clasificaciones) {
+//                boolean loteEcontrado = false;
+//
+//                for (ArchivoLote archivoLote : archivoLotes) {
+//                    if (oportunidad_clasificacion.getDescripcion().equals(archivoLote.getLote().toString())) {
+//                        loteEcontrado = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (!loteEcontrado) {
+//                    String query = servicioOportunidad_clasificaciones.strDeleteOportunidad_clasificaciones(accesoBD, oportunidad_clasificacion.getIdOportunidadClasificacion());
+//
+//                    if (query == null) {
+//                        System.out.println("Error al eliminar registro");
+//                    } else {
+//                        queries.add(query);
+//                    }
+//                }
+//            }
 
             // CREAR Y GUARDAR CONTENIDO ARCHIVO RESULTADO
             String archivoResultado = directorioTrabajo + "resultado" + archivoControl.getAlias() + ".txt";

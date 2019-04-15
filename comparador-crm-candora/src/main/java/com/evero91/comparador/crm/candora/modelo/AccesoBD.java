@@ -28,7 +28,7 @@ public class AccesoBD {
     }
 
     public boolean establecerConexion() {
-        String host = "localhost";
+        String host = "192.168.1.13";
         String port = "3306";
         String database = "crm-candora-produccrion";
         String url = "jdbc:mysql://" + host + ":" + port + "/" + database;
